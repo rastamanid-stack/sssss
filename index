@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Riddle Maze</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #111;
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .screen {
+      display: none;
+      text-align: center;
+      max-width: 600px;
+    }
+
+    .screen.active {
+      display: block;
+    }
+
+    button {
+      margin: 10px;
+      padding: 15px 25px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    iframe {
+      max-width: 100%;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- QUESTION 1 -->
+  <div class="screen active" id="q1">
+    <h2>Question 1</h2>
+    <p>What has keys but no locks?</p>
+    <button onclick="goTo('q2')">Piano</button>
+    <button onclick="fail()">Door</button>
+  </div>
+
+  <!-- QUESTION 2 -->
+  <div class="screen" id="q2">
+    <h2>Question 2</h2>
+    <p>I speak without a mouth and hear without ears. What am I?</p>
+    <button onclick="goTo('q3')">Echo</button>
+    <button onclick="fail()">Shadow</button>
+  </div>
+
+  <!-- QUESTION 3 -->
+  <div class="screen" id="q3">
+    <h2>Question 3</h2>
+    <p>What runs but never walks?</p>
+    <button onclick="goTo('q4')">River</button>
+    <button onclick="fail()">Dog</button>
+  </div>
+
+  <!-- QUESTION 4 -->
+  <div class="screen" id="q4">
+    <h2>Question 4</h2>
+    <p>What has a head and a tail but no body?</p>
+    <button onclick="goTo('q5')">Coin</button>
+    <button onclick="fail()">Snake</button>
+  </div>
+
+  <!-- QUESTION 5 -->
+  <div class="screen" id="q5">
+    <h2>Question 5</h2>
+    <p>What gets wetter the more it dries?</p>
+    <button onclick="goTo('q6')">Towel</button>
+    <button onclick="fail()">Sponge</button>
+  </div>
+
+  <!-- QUESTION 6 -->
+  <div class="screen" id="q6">
+    <h2>Question 6</h2>
+    <p>What can travel around the world while staying in one spot?</p>
+    <button onclick="goTo('q7')">Stamp</button>
+    <button onclick="fail()">Plane</button>
+  </div>
+
+  <!-- QUESTION 7 -->
+  <div class="screen" id="q7">
+    <h2>Question 7</h2>
+    <p>What has hands but cannot clap?</p>
+    <button onclick="goTo('q8')">Clock</button>
+    <button onclick="fail()">Person</button>
+  </div>
+
+  <!-- QUESTION 8 -->
+  <div class="screen" id="q8">
+    <h2>Final Question</h2>
+    <p>What disappears the moment you say its name?</p>
+    <button onclick="goTo('win')">Silence</button>
+    <button onclick="fail()">Darkness</button>
+  </div>
+
+  <!-- WIN PAGE -->
+  <div class="screen" id="win">
+    <h2>🎉 You Win!</h2>
+    <p>You escaped the maze.</p>
+  </div>
+
+  <!-- FAIL PAGE -->
+  <div class="screen" id="fail">
+    <h2>❌ You Failed</h2>
+    <p>Better luck next time.</p>
+
+    <iframe
+      id="failVideo"
+      width="560"
+      height="315"
+      src="https://drive.google.com/file/d/1mKifQLN7L7CESKFi00bdykxIcP8GD45d/preview"
+      allow="autoplay"
+      allowfullscreen>
+    </iframe>
+
+    <br><br>
+    <button onclick="restart()">Restart</button>
+  </div>
+
+  <script>
+    let failInterval;
+
+    function goTo(id) {
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+
+      if (id === 'fail') {
+        startFailVideoLoop();
+      } else {
+        stopFailVideoLoop();
+      }
+    }
+
+    function fail() {
+      goTo('fail');
+    }
+
+    function restart() {
+      goTo('q1');
+    }
+
+    function startFailVideoLoop() {
+      const iframe = document.getElementById('failVideo');
+      if (!iframe) return;
+
+      const src = iframe.src;
+      iframe.src = src;
+
+      // 🔁 Change 18000 to match your video length (ms)
+      failInterval = setInterval(() => {
+        iframe.src = src;
+      }, 18000);
+    }
+
+    function stopFailVideoLoop() {
+      if (failInterval) {
+        clearInterval(failInterval);
+        failInterval = null;
+      }
+    }
+  </script>
+
+</body>
+</html>
